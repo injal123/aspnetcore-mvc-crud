@@ -1,0 +1,40 @@
+<form 
+    class="container mt-5" style="max-width: 400px;"
+>
+
+
+    <h2 class="text-center mb-4">Login</h2>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email">
+    </div>
+
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password">
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary w-100">
+        Login
+    </button>
+
+
+
+
+    <div class="text-center mt-3">
+        <span>New User?</span>
+
+        @* <a href="/Auth/Register">
+            Register Here...
+        </a> *@
+
+        <a asp-controller="Auth" asp-action="Register">
+            Register Here
+        </a>
+
+    </div>
+
+</form>

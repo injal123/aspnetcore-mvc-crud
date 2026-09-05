@@ -1,0 +1,97 @@
+
+@using MyMvcApp.Dto
+
+
+
+@* Model Binding *@
+@model RegisterUserDto
+
+
+
+
+
+
+
+
+<form 
+    class="container mt-5" 
+    style="max-width: 400px;"
+    method="post"
+    asp-controller="Auth" asp-action="CreateUser"
+>
+
+
+
+
+    <h2 class="text-center mb-4">Register</h2>
+
+
+
+    <div class="mb-3">
+        <label asp-for="Username" class="form-label">Username</label>
+        <input 
+            type="text" 
+            class="form-control"
+            placeholder="Enter your username"
+            asp-for="Username"
+        >
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+
+
+
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input 
+            type="email" 
+            class="form-control"
+            placeholder="Enter your email"
+            asp-for="Email"
+        >
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+
+
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input 
+            type="password" 
+            class="form-control"
+            placeholder="Enter your password"
+            asp-for="Password"
+        >
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+
+
+
+
+    <input 
+        type="submit"
+        class="btn btn-primary w-100"
+        value="Submit"
+    >
+
+
+
+
+    <div class="text-center mt-3">
+        <span>Account Already Exists?</span>
+
+        @* <a href="/Auth/Login">
+            Login Here...
+        </a> *@
+
+        <a asp-controller="Auth" asp-action="Login">
+            Login Here...
+        </a>
+
+    </div>
+
+
+
+</form>

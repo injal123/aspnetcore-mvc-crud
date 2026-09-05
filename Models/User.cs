@@ -10,7 +10,7 @@ namespace MyMvcApp.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100)]
+        [StringLength(50, MinimumLength = 3)]
         public string Username { get; set; } = null!;
 
         [Required]
@@ -18,8 +18,7 @@ namespace MyMvcApp.Models
         public string Email { get; set; } = null!;
 
         [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = null!;
+        public string PasswordHash { get; set; } = null!;
     }
 }
 
