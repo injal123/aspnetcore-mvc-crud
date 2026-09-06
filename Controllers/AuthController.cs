@@ -28,13 +28,13 @@ namespace MyMvcApp.Controllers
 
 
 
-        [HttpGet]    // → Give me the Login page
+        [HttpGet]    // → Give me the Login page.
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpGet]     // → Give me the registration page
+        [HttpGet]     // → Give me the registration page.
         public IActionResult Register()
         {
             return View();
@@ -98,6 +98,7 @@ namespace MyMvcApp.Controllers
 
 
             // 7. Registration successful
+            TempData["SuccessMessage"] = "Account created successfully. Please log in.";
             return RedirectToAction(nameof(Login));
 
  
