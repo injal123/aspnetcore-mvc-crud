@@ -1,3 +1,14 @@
+@using MyMvcApp.Dto
+
+@model LoginUserDto 
+
+
+
+
+
+@* Acc Created Successfully. Pls Log in ----  msg from CreateUser() *@
+@* "You have been logged out successfully." --- msg from Logout() *@
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert">
@@ -6,24 +17,46 @@
     </div>
 }
 
+@* Form/model-level error: from - - - -  string.Empty *@
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+
+
+
 
 
 
 <form 
     class="container mt-5" style="max-width: 400px;"
+    method="post"
+    asp-controller="Auth" asp-action="LoginUser"
 >
 
 
     <h2 class="text-center mb-4">Login</h2>
 
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email">
-    </div>
 
     <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input 
+            type="email" 
+            class="form-control"
+            placeholder="Enter your email"
+            asp-for="Email"
+        >
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input type="password" 
+            class="form-control"
+            placeholder="Enter your password"
+            asp-for="Password"
+        >
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
 

@@ -1,0 +1,27 @@
+
+
+
+@* "Login successful!" --- Msg from LoginUser() *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert">
+        <span>✓</span>
+        <span>@TempData["SuccessMessage"]</span>
+    </div>
+}
+
+
+
+
+
+
+<form 
+    asp-controller="Auth" asp-action="Logout" 
+    method="post"
+
+>
+
+    <button type="submit" class="btn btn-danger">
+        Logout
+    </button>
+</form>
