@@ -46,6 +46,7 @@ namespace MyMvcApp.Controllers
 
         // explicitly tells ASP.NET: This action handles POST requests.
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateUser(RegisterUserDto registerUserDto)
         {
 
