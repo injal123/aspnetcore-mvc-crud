@@ -1,0 +1,119 @@
+@model MyMvcApp.Dto.CreateNoteDto
+
+@{
+    ViewData["Title"] = "Create Note";
+}
+
+
+
+
+
+
+<div class="mb-4">
+
+    <h2 class="fw-bold mb-1">
+        Create a Note
+    </h2>
+
+    <p class="text-muted mb-0">
+        Write down something you'd like to remember.
+    </p>
+
+</div>
+
+
+
+
+<div class="card shadow-sm border-0">
+
+    <div class="card-body p-4">
+
+
+
+        <form 
+            asp-controller="Dashboard"
+            asp-action="CreateNote"
+            method="post"
+        >
+
+
+           @* ⚠️⚠️ Model-Level Error. *@
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+
+
+
+
+
+            <!-- Title -->
+            <div class="mb-4">
+
+                <label asp-for="Title" class="form-label fw-semibold">
+                    Title
+                </label>
+
+                <input 
+                    asp-for="Title"
+                    class="form-control"
+                    placeholder="Enter note title..." 
+                />
+
+                <span asp-validation-for="Title" class="text-danger"></span>
+
+            </div>
+
+
+
+
+            <!-- Content -->
+            <div class="mb-4">
+
+                <label asp-for="Content"
+                       class="form-label fw-semibold">
+                    Content
+                </label>
+
+                <textarea asp-for="Content"
+                          class="form-control"
+                          rows="8"
+                          placeholder="Write your note here..."></textarea>
+
+                <span asp-validation-for="Content"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+
+
+
+
+            <!-- Actions -->
+            <div class="d-flex gap-2">
+
+                <button type="submit" class="btn btn-primary">
+                    Create Note
+                </button>
+
+                <a 
+                    asp-controller="Dashboard"
+                    asp-action="AllNotes"
+                    class="btn btn-outline-secondary"
+                >
+                        Cancel
+                </a>
+
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
