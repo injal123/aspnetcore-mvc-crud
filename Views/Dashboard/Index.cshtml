@@ -151,12 +151,19 @@ MyMvcApp.Models.Note
                                             </a>
 
 
-                                            <button
-                                                type="button"
-                                                class="btn btn-sm btn-outline-danger"
-                                            >
-                                                Delete
-                                            </button>
+                                            <form 
+                                                asp-controller="Dashboard"
+                                                asp-action="DeleteNote"
+                                                asp-route-id="@note.Id"
+                                                method="post"
+                                                class="d-inline">
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger">
+                                                    Delete
+                                                </button>
+
+                                            </form>
 
                                         </div>
 
@@ -255,11 +262,19 @@ MyMvcApp.Models.Note
                                                 Edit
                                             </a>
 
-                                            <button
-                                                type="button"
-                                                class="btn btn-sm btn-outline-danger">
-                                                Delete
-                                            </button>
+                                            <form 
+                                                asp-controller="Dashboard"
+                                                asp-action="DeleteNote"
+                                                asp-route-id="@note.Id"
+                                                method="post"
+                                                class="d-inline">
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger">
+                                                    Delete
+                                                </button>
+
+                                        </form>
 
                                         </div>
 

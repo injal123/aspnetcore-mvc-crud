@@ -236,7 +236,6 @@ namespace MyMvcApp.Controllers
 
 
 
-
             note.Title = createNoteDto.Title.Trim();
             note.Content = createNoteDto.Content.Trim();
             note.UpdatedAt = DateTime.UtcNow;
@@ -246,7 +245,58 @@ namespace MyMvcApp.Controllers
 
             TempData["SuccessMessage"] = "Note updated successfully!";
             return RedirectToAction(nameof(AllNotes));
+        }
 
+
+
+
+
+
+
+
+
+        // 7. DeleteNote
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteNote(int id)
+        {
+            
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+
+            var note = await _context.Notes
+                .FirstOrDefaultAsync(n =>
+                    n.UserId == userId &&
+                    n.Id == id &&
+                    !n.IsDeleted
+                );
+
+            
+            if (note == null)
+            {
+                return NotFound();
+            }
+
+
+
+            note.IsDeleted = true;
+            note.UpdatedAt = DateTime.UtcNow;
+
+
+
+
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Note moved to trash.";
+
+
+            return RedirectToAction(nameof(AllNotes));
 
         }
 
