@@ -54,7 +54,7 @@ namespace MyMvcApp.Controllers
 
         // 2. All Notes page.
         [HttpGet]
-        public async Task<IActionResult> AllNotes()
+        public async Task<IActionResult> AllNotes(string? search)
         {
             // Get the current user's ID from the authentication claims.
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -65,11 +65,38 @@ namespace MyMvcApp.Controllers
                 return Unauthorized();
             }
 
-            // Fetch only the current user's active notes.
-            var notes = await _context.Notes
-                .Where(n => n.UserId == userId && !n.IsDeleted)
+
+
+
+            // Search.
+            var notesQuery = _context.Notes
+                .Where(n => n.UserId == userId && !n.IsDeleted);
+            
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                notesQuery = notesQuery.Where(n =>
+                    n.Title.Contains(search) ||
+                    n.Content.Contains(search)
+                );
+            }
+
+
+            var notes = await notesQuery
                 .OrderByDescending(n => n.UpdatedAt)
                 .ToListAsync();
+
+
+
+            ViewData["Search"] = search;
+
+
+
+            // // Fetch only the current user's active notes.
+            // var notes = await _context.Notes
+            //     .Where(n => n.UserId == userId && !n.IsDeleted)
+            //     .OrderByDescending(n => n.UpdatedAt)
+            //     .ToListAsync();
 
             return View(notes);
         }
