@@ -41,9 +41,24 @@ namespace MyMvcApp.Controllers
                 .OrderByDescending(n => n.UpdatedAt)
                 .ToListAsync();    // execute the query and get the results as a list.
 
+
+
+
+
+            ViewData["TotalNotes"] = notes.Count;
+            ViewData["PinnedNotes"] = notes.Count(n => n.IsPinned);
+
+            ViewData["TrashNotes"] = await _context.Notes
+                .CountAsync(n => n.UserId == userId && n.IsDeleted);
+
+
+
+
+
             // Send the notes to the Razor View.
             return View(notes);
         }
+
 
 
 

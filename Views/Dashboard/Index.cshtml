@@ -66,6 +66,55 @@ MyMvcApp.Models.Note
 
 
 
+
+    @* Counts -- Statistics *@
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Total Notes</p>
+                    <h3 class="fw-bold mb-0">
+                        🗒️ @ViewData["TotalNotes"]
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Pinned Notes</p>
+                    <h3 class="fw-bold mb-0">
+                        📌 @ViewData["PinnedNotes"]
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <p class="text-muted mb-2">Trash</p>
+                    <h3 class="fw-bold mb-0">
+                        🗑️ @ViewData["TrashNotes"]
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
     <!-- Pinned Notes -->
     <section class="mb-5">
 
