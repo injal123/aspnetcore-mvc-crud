@@ -6,6 +6,7 @@ using System.Security.Claims;
 
 using MyMvcApp.Dto;
 using MyMvcApp.Models;
+using Microsoft.AspNetCore.Antiforgery;
 
 
 
@@ -255,6 +256,9 @@ namespace MyMvcApp.Controllers
 
 
 
+
+
+
         // 7. DeleteNote
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -282,22 +286,130 @@ namespace MyMvcApp.Controllers
                 return NotFound();
             }
 
-
-
             note.IsDeleted = true;
             note.UpdatedAt = DateTime.UtcNow;
 
 
 
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Note moved to trash.";
+            return RedirectToAction(nameof(AllNotes));
+        }
 
+
+
+
+
+
+
+
+
+
+
+
+        // 8. Return Trash Page.
+        [HttpGet]
+        public async Task<IActionResult> Trash()
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            var notes = await _context.Notes
+                .Where(n => n.UserId == userId && n.IsDeleted)
+                .OrderByDescending(n => n.UpdatedAt)
+                .ToListAsync();
+
+            return View(notes);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // 9. RestoreNote
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreNote(int id)
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            var note = await _context.Notes
+                .FirstOrDefaultAsync(n =>
+                    n.UserId == userId &&
+                    n.Id == id &&
+                    n.IsDeleted);
+
+            if (note == null)
+            {
+                return NotFound();
+            }
+
+            note.IsDeleted = false;
+            note.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Note moved to trash.";
+            TempData["SuccessMessage"] = "Note restored successfully.";
+
+            return RedirectToAction(nameof(Trash));
+        }
 
 
-            return RedirectToAction(nameof(AllNotes));
 
+
+
+
+
+
+
+
+
+
+
+        // 10. Delete Permanently
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePermanently(int id)
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            var note = await _context.Notes
+                .FirstOrDefaultAsync(n =>
+                    n.UserId == userId &&
+                    n.Id == id &&
+                    n.IsDeleted);
+
+            if (note == null)
+            {
+                return NotFound();
+            }
+
+
+            _context.Notes.Remove(note);
+            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Note permanently deleted.";
+            return RedirectToAction(nameof(Trash));
         }
 
 
