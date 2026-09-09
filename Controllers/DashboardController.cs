@@ -192,7 +192,7 @@ namespace MyMvcApp.Controllers
 
         // 5. Show Edit Note page.
         [HttpGet]
-        public async Task<IActionResult> EditNote(int id)
+        public async Task<IActionResult> EditNote(int id, string? returnAction)
         {
             // Get the current user's ID from the authentication claims.
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -228,6 +228,7 @@ namespace MyMvcApp.Controllers
             };
 
 
+            ViewData["ReturnAction"] = returnAction;
             return View(noteDto);
 
         }
@@ -245,7 +246,7 @@ namespace MyMvcApp.Controllers
         // 6. Save Changes from Edit.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditNote(int id, CreateNoteDto createNoteDto)
+        public async Task<IActionResult> EditNote(int id, CreateNoteDto createNoteDto, string? returnAction)
         {
 
             if (!ModelState.IsValid)
@@ -287,7 +288,14 @@ namespace MyMvcApp.Controllers
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Note updated successfully!";
-            return RedirectToAction(nameof(AllNotes));
+
+
+            return RedirectToAction(
+                returnAction == "AllNotes" ?
+                    nameof(AllNotes) :
+                        returnAction == "Index" ?
+                            nameof(Index) : nameof(AllNotes)
+            );
         }
 
 
@@ -304,7 +312,7 @@ namespace MyMvcApp.Controllers
         // 7. DeleteNote
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteNote(int id)
+        public async Task<IActionResult> DeleteNote(int id, string returnAction)
         {
             
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -335,7 +343,16 @@ namespace MyMvcApp.Controllers
 
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Note moved to trash.";
-            return RedirectToAction(nameof(AllNotes));
+
+
+
+
+            return RedirectToAction(
+                returnAction == "AllNotes" ?
+                    nameof(AllNotes) :
+                        returnAction == "Index" ?
+                            nameof(Index) : nameof(AllNotes)
+            );
         }
 
 

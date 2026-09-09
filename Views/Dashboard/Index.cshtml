@@ -188,7 +188,8 @@ MyMvcApp.Models.Note
                                     class="btn btn-sm btn-outline-primary"
                                     asp-controller="Dashboard"
                                     asp-action="EditNote"
-                                    asp-route-id="@note.Id"  
+                                    asp-route-id="@note.Id" 
+                                    asp-route-returnAction="Index"  
                                     @* For Example:   /Dashboard/EditNote/7 *@
                                     >
                                         Edit
@@ -221,6 +222,7 @@ MyMvcApp.Models.Note
                                         asp-controller="Dashboard"
                                         asp-action="DeleteNote"
                                         asp-route-id="@note.Id"
+                                        asp-route-returnAction="Index"
                                         method="post"
                                         class="d-inline">
 
@@ -329,7 +331,9 @@ MyMvcApp.Models.Note
                                         class="btn btn-sm btn-outline-primary"
                                         asp-controller="Dashboard"
                                         asp-action="EditNote"
-                                        asp-route-id="@note.Id">
+                                        asp-route-id="@note.Id"
+                                        asp-route-returnAction="Index"  
+                                    >
                                         Edit
                                     </a>
 
@@ -358,6 +362,7 @@ MyMvcApp.Models.Note
                                         asp-controller="Dashboard"
                                         asp-action="DeleteNote"
                                         asp-route-id="@note.Id"
+                                        asp-route-returnAction="Index"
                                         method="post"
                                         class="d-inline">
 

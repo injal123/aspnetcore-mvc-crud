@@ -4,6 +4,8 @@
 
 @{
     ViewData["Title"] = "Edit Note";
+
+    var returnAction = ViewData["ReturnAction"]?.ToString() ?? "AllNotes";
 }
 
 
@@ -42,6 +44,12 @@
             asp-action="EditNote"
             method="post"
         >
+
+
+
+            <input type="hidden"
+                name="returnAction"
+                value="@ViewData["ReturnAction"]" />
 
 
 
@@ -103,7 +111,7 @@
 
                 <a 
                     asp-controller="Dashboard"
-                    asp-action="AllNotes"
+                    asp-action="@returnAction"
                     class="btn btn-outline-secondary"
                 >
                     Cancel

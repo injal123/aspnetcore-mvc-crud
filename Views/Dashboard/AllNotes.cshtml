@@ -157,7 +157,8 @@ else
                                 class="btn btn-sm btn-outline-primary"
                                 asp-controller="Dashboard"
                                 asp-action="EditNote"
-                                asp-route-id="@note.Id"  
+                                asp-route-id="@note.Id" 
+                                asp-route-returnAction="AllNotes" 
                                 @* For Example:   /Dashboard/EditNote/7 *@
                             >
                                 Edit
@@ -191,6 +192,7 @@ else
                                 asp-controller="Dashboard"
                                 asp-action="DeleteNote"
                                 asp-route-id="@note.Id"
+                                asp-route-returnAction="AllNotes"
                                 method="post"
                                 class="d-inline">
 
