@@ -416,5 +416,61 @@ namespace MyMvcApp.Controllers
 
 
 
+
+
+
+
+
+
+
+
+        // 11. Pin / UnPin
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TogglePin(int id, string returnAction)
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            var note = await _context.Notes
+                .FirstOrDefaultAsync(n =>
+                    n.UserId == userId &&
+                    n.Id == id &&
+                    !n.IsDeleted);
+
+            if (note == null)
+            {
+                return NotFound();
+            }
+
+            note.IsPinned = !note.IsPinned;
+            note.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = note.IsPinned
+                ? "Note pinned successfully."
+                : "Note unpinned successfully.";
+
+
+
+
+            return RedirectToAction(
+                returnAction == "AllNotes" ?
+                    nameof(AllNotes) : 
+                        returnAction == "Index" ?
+                            nameof(Index) : nameof(AllNotes)
+            );
+        }
+                
+
+
+
+
+
     }
 }

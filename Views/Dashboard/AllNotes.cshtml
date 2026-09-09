@@ -159,6 +159,29 @@ else
                             </a>
 
 
+
+
+
+                            <form 
+                                asp-controller="Dashboard"
+                                asp-action="TogglePin"
+                                asp-route-id="@note.Id"
+                                method="post"
+                                asp-route-returnAction="AllNotes"
+                                class="d-inline"
+                            >
+                                <button type="submit"
+                                    class="btn btn-sm btn-outline-secondary">
+                                    @(note.IsPinned ? "Unpin" : "Pin")
+                                </button>
+
+                            </form>
+
+
+
+
+
+
                             <form 
                                 asp-controller="Dashboard"
                                 asp-action="DeleteNote"

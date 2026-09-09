@@ -40,261 +40,301 @@ MyMvcApp.Models.Note
 
 
 
-<div class="container-fluid">
-    <div class="row min-vh-100">
 
+<!-- Main Content -->
+<main class="p-4 p-lg-5">
 
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
+        <div>
+            <h2 class="text-lg fw-bold mb-1">
+                Welcome back, <span class="fw-semibold">@User.Identity?.Name</span>
+            </h2>
 
-        <!-- Main Content -->
-        <main class="col-md-9 col-lg-10 p-4 p-lg-5">
-
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-
-                <div>
-                    <h2 class="text-lg fw-bold mb-1">
-                        Welcome back, <span class="fw-semibold">@User.Identity?.Name</span>
-                    </h2>
-
-                    <p class="text-muted mb-0">
-                        Here's a summary of your notes.
-                    </p>
-                </div>
-
-            </div>
-
-
-
-
-
-
-
-
-            <!-- Pinned Notes -->
-            <section class="mb-5">
-
-                <h5 class="fw-bold mb-3">
-                    📌 Pinned Notes
-                </h5>
-
-                @{
-                    var pinnedNotes = Model.Where(n => n.IsPinned).ToList();
-                }
-
-                @if (!pinnedNotes.Any())
-                {
-                    <div class="text-center py-4 border rounded bg-light">
-
-                        <div style="font-size: 40px;">
-                            📌
-                        </div>
-
-                        <h6 class="mt-2">
-                            No pinned notes
-                        </h6>
-
-                        <p class="text-muted mb-0">
-                            Pin a note to keep it here for quick access.
-                        </p>
-
-                    </div>
-                }
-                else
-                {
-                    <div class="row g-4">
-
-                        @foreach (var note in pinnedNotes)
-                        {
-                            <div class="col-md-6 col-xl-4">
-
-                                <div class="card h-100 shadow-sm border-0">
-
-                                    <div class="card-body">
-
-                                        <div class="d-flex justify-content-between mb-2">
-
-                                            <h5 class="fw-bold mb-0">
-                                                @note.Title
-                                            </h5>
-
-                                            <span>📌</span>
-
-                                        </div>
-
-                                        <p class="text-muted">
-                                            @note.Content
-                                        </p>
-
-                                        <small class="text-muted">
-                                            @note.UpdatedAt.ToString("MMMM d, yyyy")
-                                        </small>
-
-                                    </div>
-
-
-
-                                    <div class="card-footer bg-white border-0">
-
-
-
-                                        <div class="d-flex gap-2">
-
-                                            <a 
-                                            class="btn btn-sm btn-outline-primary"
-                                            asp-controller="Dashboard"
-                                            asp-action="EditNote"
-                                            asp-route-id="@note.Id"  
-                                            @* For Example:   /Dashboard/EditNote/7 *@
-                                            >
-                                                Edit
-                                            </a>
-
-
-                                            <form 
-                                                asp-controller="Dashboard"
-                                                asp-action="DeleteNote"
-                                                asp-route-id="@note.Id"
-                                                method="post"
-                                                class="d-inline">
-
-                                                <button type="submit"
-                                                        class="btn btn-sm btn-outline-danger">
-                                                    Delete
-                                                </button>
-
-                                            </form>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        }
-
-                    </div>
-                }
-
-            </section>
-
-
-
-
-
-
-
-
-
-
-
-
-            <!-- Recent Notes -->
-            <section>
-
-                <h5 class="fw-bold mb-3">
-                    Recent Notes
-                </h5>
-
-                @if (!Model.Any())
-                {
-                    <div class="text-center py-5 border rounded bg-light">
-
-                        <div style="font-size: 45px;">
-                            📝
-                        </div>
-
-                        <h5 class="mt-3">
-                            No notes yet
-                        </h5>
-
-                        <p class="text-muted mb-0">
-                            Create your first note to get started.
-                        </p>
-
-                    </div>
-                }
-                else
-                {
-                    <div class="row g-4">
-
-                        @foreach (var note in Model.Take(5))
-                        {
-                            <div class="col-md-6 col-xl-4">
-
-                                <div class="card h-100 shadow-sm border-0">
-
-                                    <div class="card-body">
-
-                                        <div class="d-flex justify-content-between mb-2">
-
-                                            <h5 class="fw-bold mb-0">
-                                                @note.Title
-                                            </h5>
-
-                                            @if (note.IsPinned)
-                                            {
-                                                <span>📌</span>
-                                            }
-
-                                        </div>
-
-                                        <p class="text-muted">
-                                            @note.Content
-                                        </p>
-
-                                        <small class="text-muted">
-                                            Updated: @note.UpdatedAt.ToString("MMMM d, yyyy")
-                                        </small>
-
-                                    </div>
-
-                                    <div class="card-footer bg-white border-0">
-
-                                        <div class="d-flex gap-2">
-
-                                            <a
-                                                class="btn btn-sm btn-outline-primary"
-                                                asp-controller="Dashboard"
-                                                asp-action="EditNote"
-                                                asp-route-id="@note.Id">
-                                                Edit
-                                            </a>
-
-                                            <form 
-                                                asp-controller="Dashboard"
-                                                asp-action="DeleteNote"
-                                                asp-route-id="@note.Id"
-                                                method="post"
-                                                class="d-inline">
-
-                                                <button type="submit"
-                                                        class="btn btn-sm btn-outline-danger">
-                                                    Delete
-                                                </button>
-
-                                        </form>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        }
-
-                    </div>
-                }
-
-            </section>
-
-
-
-
-
-        </main>
+            <p class="text-muted mb-0">
+                Here's a summary of your notes.
+            </p>
+        </div>
 
     </div>
-</div>
+
+
+
+
+
+
+
+
+    <!-- Pinned Notes -->
+    <section class="mb-5">
+
+        <h5 class="fw-bold mb-3">
+            📌 Pinned Notes
+        </h5>
+
+        @{
+            var pinnedNotes = Model.Where(n => n.IsPinned).ToList();
+        }
+
+        @if (!pinnedNotes.Any())
+        {
+            <div class="text-center py-4 border rounded bg-light">
+
+                <div style="font-size: 40px;">
+                    📌
+                </div>
+
+                <h6 class="mt-2">
+                    No pinned notes
+                </h6>
+
+                <p class="text-muted mb-0">
+                    Pin a note to keep it here for quick access.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+
+                @foreach (var note in pinnedNotes)
+                {
+                    <div class="col-md-6 col-xl-4">
+
+                        <div class="card h-100 shadow-sm border-0">
+
+                            <div class="card-body">
+
+                                <div class="d-flex justify-content-between mb-2">
+
+                                    <h5 class="fw-bold mb-0">
+                                        @note.Title
+                                    </h5>
+
+                                    <span>📌</span>
+
+                                </div>
+
+                                <p class="text-muted">
+                                    @note.Content
+                                </p>
+
+                                <small class="text-muted">
+                                    @note.UpdatedAt.ToString("MMMM d, yyyy")
+                                </small>
+
+                            </div>
+
+
+
+                            <div class="card-footer bg-white border-0">
+
+
+
+                                <div class="d-flex gap-2">
+
+                                    <a 
+                                    class="btn btn-sm btn-outline-primary"
+                                    asp-controller="Dashboard"
+                                    asp-action="EditNote"
+                                    asp-route-id="@note.Id"  
+                                    @* For Example:   /Dashboard/EditNote/7 *@
+                                    >
+                                        Edit
+                                    </a>
+
+
+
+
+
+                                    <form 
+                                        asp-controller="Dashboard"
+                                        asp-action="TogglePin"
+                                        asp-route-id="@note.Id"
+                                        asp-route-returnAction="Index"
+                                        method="post"
+                                        class="d-inline"
+                                    >
+                                        <button type="submit"
+                                            class="btn btn-sm btn-outline-secondary">
+                                            @(note.IsPinned ? "Unpin" : "Pin")
+                                        </button>
+
+                                    </form>
+
+
+
+
+
+                                    <form 
+                                        asp-controller="Dashboard"
+                                        asp-action="DeleteNote"
+                                        asp-route-id="@note.Id"
+                                        method="post"
+                                        class="d-inline">
+
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger">
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Section Divider -->
+    <div class="border-top my-5"></div>
+
+
+
+
+
+
+
+    <!-- Recent Notes -->
+    <section>
+
+        <h5 class="fw-bold mb-3">
+            Recent Notes
+        </h5>
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5 border rounded bg-light">
+
+                <div style="font-size: 45px;">
+                    📝
+                </div>
+
+                <h5 class="mt-3">
+                    No notes yet
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Create your first note to get started.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+
+                @foreach (var note in Model.Take(5))
+                {
+                    <div class="col-md-6 col-xl-4">
+
+                        <div class="card h-100 shadow-sm border-0">
+
+                            <div class="card-body">
+
+                                <div class="d-flex justify-content-between mb-2">
+
+                                    <h5 class="fw-bold mb-0">
+                                        @note.Title
+                                    </h5>
+
+                                    @if (note.IsPinned)
+                                    {
+                                        <span>📌</span>
+                                    }
+
+                                </div>
+
+                                <p class="text-muted">
+                                    @note.Content
+                                </p>
+
+                                <small class="text-muted">
+                                    Updated: @note.UpdatedAt.ToString("MMMM d, yyyy")
+                                </small>
+
+                            </div>
+
+                            <div class="card-footer bg-white border-0">
+
+                                <div class="d-flex gap-2">
+
+                                    <a
+                                        class="btn btn-sm btn-outline-primary"
+                                        asp-controller="Dashboard"
+                                        asp-action="EditNote"
+                                        asp-route-id="@note.Id">
+                                        Edit
+                                    </a>
+
+
+
+
+                                    <form 
+                                        asp-controller="Dashboard"
+                                        asp-action="TogglePin"
+                                        asp-route-id="@note.Id"
+                                        asp-route-returnAction="Index"
+                                        method="post"
+                                        class="d-inline"
+                                    >
+                                        <button type="submit"
+                                            class="btn btn-sm btn-outline-secondary">
+                                            @(note.IsPinned ? "Unpin" : "Pin")
+                                        </button>
+
+                                    </form>
+
+
+
+
+                                    <form 
+                                        asp-controller="Dashboard"
+                                        asp-action="DeleteNote"
+                                        asp-route-id="@note.Id"
+                                        method="post"
+                                        class="d-inline">
+
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger">
+                                            Delete
+                                        </button>
+
+                                </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+
+    </section>
+
+
+
+
+
+</main>
