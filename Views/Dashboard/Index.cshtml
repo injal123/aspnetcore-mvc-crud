@@ -132,18 +132,29 @@ MyMvcApp.Models.Note
 
                                     </div>
 
+
+
                                     <div class="card-footer bg-white border-0">
+
+
 
                                         <div class="d-flex gap-2">
 
-                                            <a href="#"
-                                            class="btn btn-sm btn-outline-primary">
+                                            <a 
+                                            class="btn btn-sm btn-outline-primary"
+                                            asp-controller="Dashboard"
+                                            asp-action="EditNote"
+                                            asp-route-id="@note.Id"  
+                                            @* For Example:   /Dashboard/EditNote/7 *@
+                                            >
                                                 Edit
                                             </a>
 
+
                                             <button
                                                 type="button"
-                                                class="btn btn-sm btn-outline-danger">
+                                                class="btn btn-sm btn-outline-danger"
+                                            >
                                                 Delete
                                             </button>
 
@@ -236,8 +247,11 @@ MyMvcApp.Models.Note
 
                                         <div class="d-flex gap-2">
 
-                                            <a href="#"
-                                            class="btn btn-sm btn-outline-primary">
+                                            <a
+                                                class="btn btn-sm btn-outline-primary"
+                                                asp-controller="Dashboard"
+                                                asp-action="EditNote"
+                                                asp-route-id="@note.Id">
                                                 Edit
                                             </a>
 

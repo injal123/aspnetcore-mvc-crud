@@ -34,7 +34,7 @@ namespace MyMvcApp.Controllers
                 return Unauthorized();
             }
 
-            // Fetch only the current user's active notes.
+            // Fetch only the current user's active notes. List of Notes-> .Where,not Firstordefault
             var notes = await _context.Notes
                 .Where(n => n.UserId == userId && !n.IsDeleted)     // LINQ & Lambda Expression.
                 .OrderByDescending(n => n.UpdatedAt)
@@ -43,7 +43,6 @@ namespace MyMvcApp.Controllers
             // Send the notes to the Razor View.
             return View(notes);
         }
-
 
 
 
@@ -122,8 +121,8 @@ namespace MyMvcApp.Controllers
             // Create New Note in that user of id userId.
             var note = new Note
             {
-                Title = createNoteDto.Title,
-                Content = createNoteDto.Content,
+                Title = createNoteDto.Title.Trim(),
+                Content = createNoteDto.Content.Trim(),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 UserId = userId
@@ -136,8 +135,117 @@ namespace MyMvcApp.Controllers
             TempData["SuccessMessage"] = "Note created successfully!";
 
             return RedirectToAction(nameof(AllNotes));
+
+        }
+
+
+
+
+
+
+
+
+
+
+        // 5. Show Edit Note page.
+        [HttpGet]
+        public async Task<IActionResult> EditNote(int id)
+        {
+            // Get the current user's ID from the authentication claims.
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Convert from string → int
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+
+            // Fetch notes.
+            var note = await _context.Notes
+                .FirstOrDefaultAsync(n => 
+                    n.UserId == userId &&
+                    n.Id == id &&
+                    !n.IsDeleted
+                );
             
 
+
+            if (note == null)
+            {
+                return NotFound();
+            }
+
+
+
+            var noteDto = new CreateNoteDto
+            {
+                Title = note.Title,
+                Content = note.Content
+            };
+
+
+            return View(noteDto);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+        // 6. Save Changes from Edit.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditNote(int id, CreateNoteDto createNoteDto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(createNoteDto);
+            }
+
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+
+
+            var note = await _context.Notes
+                .FirstOrDefaultAsync(n => 
+                    n.UserId == userId &&
+                    n.Id == id &&
+                    !n.IsDeleted
+                );
+            
+
+
+            if (note == null)
+            {
+                return NotFound();
+            }
+
+
+
+
+
+            note.Title = createNoteDto.Title.Trim();
+            note.Content = createNoteDto.Content.Trim();
+            note.UpdatedAt = DateTime.UtcNow;
+
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Note updated successfully!";
+            return RedirectToAction(nameof(AllNotes));
 
 
         }

@@ -9,6 +9,20 @@
 
 
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success d-flex align-items-center gap-2 mb-4" role="alert">
+        <span>✓</span>
+        <span>@TempData["SuccessMessage"]</span>
+    </div>
+}
+
+
+
+
+
+
+
 
 <div class="container-fluid">
     <div class="row min-vh-100">
@@ -46,7 +60,7 @@
 
 
             <!-- Search -->
-            <div class="mb-4">
+            <div class="mb-5">
 
                 <input type="text"
                        class="form-control form-control-lg"
@@ -119,23 +133,34 @@
 
                                 </div>
 
+
+
+
                                 <div class="card-footer bg-white border-0">
 
                                     <div class="d-flex gap-2">
 
-                                        <a href="#"
-                                           class="btn btn-sm btn-outline-primary">
+                                        <a 
+                                           class="btn btn-sm btn-outline-primary"
+                                           asp-controller="Dashboard"
+                                           asp-action="EditNote"
+                                           asp-route-id="@note.Id"  
+                                           @* For Example:   /Dashboard/EditNote/7 *@
+                                        >
                                             Edit
                                         </a>
 
                                         <button type="button"
-                                                class="btn btn-sm btn-outline-danger">
+                                            class="btn btn-sm btn-outline-danger"
+                                        >
                                             Delete
                                         </button>
 
                                     </div>
 
                                 </div>
+
+
 
                             </div>
 

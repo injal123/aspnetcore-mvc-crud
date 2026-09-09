@@ -163,7 +163,7 @@ namespace MyMvcApp.Controllers
 
 
 
-            // 5. Create claims for the user.
+            // 5. Create claims for the user... - - -  For cookie Authentication. 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),

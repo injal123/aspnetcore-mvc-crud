@@ -1,8 +1,11 @@
 @model MyMvcApp.Dto.CreateNoteDto
 
+
+
 @{
-    ViewData["Title"] = "Create Note";
+    ViewData["Title"] = "Edit Note";
 }
+
 
 
 
@@ -12,14 +15,15 @@
 <div class="mb-4">
 
     <h2 class="fw-bold mb-1">
-        Create a Note
+        Edit Note
     </h2>
 
     <p class="text-muted mb-0">
-        Write down something you'd like to remember.
+        Update your note and save your changes.
     </p>
 
 </div>
+
 
 
 
@@ -30,17 +34,19 @@
 
 
 
+
+
+
         <form 
             asp-controller="Dashboard"
-            asp-action="CreateNote"
+            asp-action="EditNote"
             method="post"
         >
 
 
-           @* ⚠️⚠️ Model-Level Error. *@
+
+
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-
 
 
 
@@ -64,26 +70,23 @@
 
 
 
-
             <!-- Content -->
             <div class="mb-4">
 
-                <label asp-for="Content"
-                       class="form-label fw-semibold">
+                <label asp-for="Content" class="form-label fw-semibold">
                     Content
                 </label>
 
-                <textarea asp-for="Content"
-                          class="form-control"
-                          rows="8"
-                          placeholder="Write your note here..."></textarea>
+                <textarea 
+                    asp-for="Content"
+                    class="form-control"
+                    rows="8"
+                    placeholder="Write your note here..."
+                ></textarea>
 
-                <span asp-validation-for="Content"
-                      class="text-danger">
-                </span>
+                <span asp-validation-for="Content" class="text-danger"></span>
 
             </div>
-
 
 
 
@@ -91,8 +94,11 @@
             <!-- Actions -->
             <div class="d-flex gap-2">
 
-                <button type="submit" class="btn btn-primary">
-                    Create Note
+                <button 
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Save Changes
                 </button>
 
                 <a 
@@ -100,18 +106,17 @@
                     asp-action="AllNotes"
                     class="btn btn-outline-secondary"
                 >
-                        Cancel
+                    Cancel
                 </a>
 
             </div>
-
-
 
         </form>
 
     </div>
 
 </div>
+
 
 
 
